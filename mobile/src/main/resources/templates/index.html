@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mobile Management</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Add Mobile</h2>
+
+<!-- ✅ FORM -->
+<form th:action="@{/save}" th:object="${mobile}" method="post">
+
+    <input type="hidden" th:field="*{mobileid}" />
+
+    Mobile Name:
+    <input type="text" th:field="*{mobilename}" required />
+    <br>
+
+    RAM:
+    <input type="number" th:field="*{ram}" required />
+    <br>
+
+    ROM:
+    <input type="number" th:field="*{rom}" required />
+    <br>
+
+    Price:
+    <input type="number" step="0.01" th:field="*{price}" required />
+    <br>
+
+    <button type="submit">Save / Update</button>
+</form>
+
+
+<hr>
+
+<h2>Mobile List</h2>
+
+<!-- ✅ TABLE -->
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>RAM</th>
+        <th>ROM</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr th:each="m : ${mobiles}">
+        <td th:text="${m.mobileid}"></td>
+        <td th:text="${m.mobilename}"></td>
+        <td th:text="${m.ram}"></td>
+        <td th:text="${m.rom}"></td>
+        <td th:text="${m.price}"></td>
+
+        <td>
+            <a th:href="@{/edit/{id}(id=${m.mobileid})}">Edit</a>
+            |
+            <a th:href="@{/delete/{id}(id=${m.mobileid})}"
+               onclick="return confirm('Are you sure?')">
+               Delete
+            </a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
